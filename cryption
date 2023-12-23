@@ -14,15 +14,14 @@ def decrypt():
         message = text1.get(1.0, END).strip()
 
         try:
-            # Use UTF-8 encoding for a broader character set
-            decode_message = message.encode("ascii")
+            decode_message = message.encode("utf-8")
             base64_bytes = base64.b64decode(decode_message)
-            decrypted_text = base64_bytes.decode("ascii")
+            decrypted_text = base64_bytes.decode("utf-8")
         except UnicodeEncodeError as e:
             messagebox.showerror("Error", f"Encoding error: {e}")
             return
         except Exception as e:
-            messagebox.showerror("Error", f"Encryption error: {e}")
+            messagebox.showerror("Error", f"Decryption error: {e}")
             return
 
         Label(screen2, text="DECRYPT", font="arial", fg="white", bg="#00bd56").place(x=10, y=0)
@@ -31,9 +30,9 @@ def decrypt():
 
         text2.insert(END, decrypted_text)
     elif password == "":
-        messagebox.showerror("encryption", "Input Password")
+        messagebox.showerror("Decryption", "Input Password")
     elif password != "1":
-        messagebox.showerror("enryption", "Invalid Password")
+        messagebox.showerror("Decryption", "Invalid Password")
 
 def encrypt():
     password = code.get()
@@ -47,10 +46,9 @@ def encrypt():
         message = text1.get(1.0, END).strip()
 
         try:
-            # Use UTF-8 encoding for a broader character set
-            encode_message = message.encode("ascii")
+            encode_message = message.encode("utf-8")
             base64_bytes = base64.b64encode(encode_message)
-            encrypted_text = base64_bytes.decode("ascii")
+            encrypted_text = base64_bytes.decode("utf-8")
         except UnicodeEncodeError as e:
             messagebox.showerror("Error", f"Encoding error: {e}")
             return
@@ -64,31 +62,31 @@ def encrypt():
 
         text2.insert(END, encrypted_text)
     elif password=="":
-        messagebox.showerror("encryption","Input Password")
+        messagebox.showerror("Encryption", "Input Password")
     elif password != "1":
-        messagebox.showerror("enryption","Invalid Password")
+        messagebox.showerror("Encryption", "Invalid Password")
+
 def main_screen():
     global screen
     global code
     global text1
 
     screen = Tk()
-    screen.geometry("640x480")
+    screen.geometry("640x350")
 
-    # icon
-    image_icon = PhotoImage(file="keys.png")
-    screen.iconphoto(False, image_icon)
-    screen.title("Cryption")
+    screen.title("CRYPTION")
+
+    screen.resizable(False, False)
 
     def reset():
         code.set("")
         text1.delete(1.0, END)
 
-    Label(text="Text : ", fg="black", font=("calibri", 13)).place(x=10, y=10)
-    text1 = Text(font="Roboto 20", bg="white", relief=GROOVE, wrap=WORD, bd=0)
-    text1.place(x=10, y=50, width=620, height=100)
+    Label(text="TEXT", fg="black", font=("arial", 13, "bold")).place(x=300, y=10)
+    text1 = Text(font=("Roboto 20",10), bg="white", relief=GROOVE, wrap=WORD, bd=0)
+    text1.place(x=10, y=32, width=620, height=130)
 
-    Label(text="Enter secret key for encryption and decryption", fg="black", font=("calibri", 13)).place(x=10, y=170)
+    Label(text="Enter secret key for encryption and decryption", fg="black", font=("arial", 13)).place(x=10, y=170)
 
     code = StringVar()
     Entry(textvariable=code, width=34, bd=0, font=("arial", 25), show="*").place(x=10, y=200)
